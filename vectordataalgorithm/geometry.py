@@ -24,9 +24,9 @@ class Point():
        """
     def __init__(self, x:Union[float,int], y:Union[float,int]):
         """intialize x-y components of point"""
-        if type(x) != float:
+        if type(x) != float and type(x) != int:
             raise TypeError('Cannot create point object with given x-argument. Input must be a number')
-        if type(y) != float:
+        if type(y) != float and type(y) != int:
             raise TypeError('Cannot create point object with given y-argument. Input must be a number')
 
         self.__x = x
