@@ -1,5 +1,6 @@
 #import python modules required
 from math import sqrt
+from typing import Union
 
 class Point():
     """Description:
@@ -21,7 +22,7 @@ class Point():
        
         returns the distance to other shape objects
        """
-    def __init__(self, x, y):
+    def __init__(self, x:Union[float,int], y:Union[float,int]):
         """intialize x-y components of point"""
         if type(x) != float:
             raise TypeError('Cannot create point object with given x-argument. Input must be a number')
