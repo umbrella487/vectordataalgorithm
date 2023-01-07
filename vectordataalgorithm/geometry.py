@@ -134,4 +134,4 @@ class Polygon():
             sum += ((self.__inputs[i].X * self.__inputs[i+1].Y) - (self.__inputs[i+1].X * self.__inputs[i].Y))
         sum *=0.5
 
-        return sum
+        return abs(sum)
