@@ -1,63 +1,51 @@
 #import python modules required
 from math import sqrt
 
-class Point():
-    """Description:
-       ------------
-       A point refers to the x-y coordinate pair that defines the geographic location
-       of a Feature.
-       
-       Attribute
-       ---------
-       X - Component
-       Defines how far a point is from the origin along the x-axis
-       
-       Y - Component
-       Defines how far a point is from the origin along the y- axis
-       
-       Methods
-       -------
-       distance_to_other()
-       
-        returns the distance to other shape objects
-       """
-    def __init__(self, x:float|int, y:float|int):
-        """intialize x-y components of point"""
-        if type(x) != float and type(x) != int:
-            raise TypeError('Cannot create point object with given x-argument. Input must be a number')
-        if type(y) != float and type(y) != int:
-            raise TypeError('Cannot create point object with given y-argument. Input must be a number')
-
-        self.__x = x
-        self.__y = y
+class Point:
+    """
+    Represents a 2D point in Cartesian (planar) space.
+    Commonly used in GIS, mapping, and spatial analysis.
+    """
+    def __init__(self, x: float | int, y: float | int):
+        """Initialize x-y components of point."""
+        if not isinstance(x, (float, int)):
+            raise TypeError('x must be a number (float or int)')
+        if not isinstance(y, (float, int)):
+            raise TypeError('y must be a number (float or int)')
+        self.__x = float(x)
+        self.__y = float(y)
 
     @property
-    def X(self):
-        """return x-component of point object"""
+    def X(self) -> float:
+        """Return x-component (easting) of point."""
         return self.__x
 
     @property
-    def Y(self):
-        """return the y-component of a point object"""
+    def Y(self) -> float:
+        """Return y-component (northing) of point."""
         return self.__y
-    
-    def distance_to_other(self, other):
-        """return the distance to other point object"""
-        if type(other) != Point:
-            raise TypeError('Cannot perform operation with given argument. input must be of type:{}'.format(type(self)))
-        
-        return sqrt((other.Y - self.Y)**2 + (other.X - self.X)**2)
 
-    def __eq__(self, __o):
-        """compares a given object to an instance"""
-        if __o != None or type(__o) != Point:
-            return False
-        return __o.X == self.__x and __o.Y == self.__y
+    def distance_to_other(self, other: 'Point') -> float:
+        """Return the Euclidean distance to another Point."""
+        if not isinstance(other, Point):
+            raise TypeError(f'Input must be of type Point, not {type(other)}')
+        return sqrt((other.Y - self.Y) ** 2 + (other.X - self.X) ** 2)
 
-    
-    def __str__(self):
-        """returns the string format of a point object"""
-        return 'X:{} Y:{}'.format(self.__x, self.__y)
+    def to_tuple(self) -> tuple:
+        """Return the (x, y) tuple representation."""
+        return (self.__x, self.__y)
+
+    def __eq__(self, other) -> bool:
+        """Check if another object is a Point with the same coordinates."""
+        return isinstance(other, Point) and self.X == other.X and self.Y == other.Y
+
+    def __str__(self) -> str:
+        """Return the string format of a point object."""
+        return f'Point(X={self.__x}, Y={self.__y})'
+
+    def __repr__(self) -> str:
+        """Return the official string representation."""
+        return f'Point({self.__x}, {self.__y})'
 
 
 class Polyline():
