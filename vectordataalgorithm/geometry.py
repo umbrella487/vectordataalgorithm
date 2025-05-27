@@ -48,33 +48,47 @@ class Point:
         return f'Point({self.__x}, {self.__y})'
 
 
-class Polyline():
-    """Description:
-       ------------
-       A linear feature consisting of series of points connected together
-       
-       Attributes
-       ----------
-       Length
-       Summation of all distance between successive points"""
+class Polyline:
+    """
+    Represents a linear feature as a series of connected points (vertices).
+    Commonly used for roads, rivers, and other linear features in GIS/mapping.
+    """
 
-    def __init__(self, inputs):
-        for obj in inputs:
-            if type(obj) != Point:
-                raise TypeError('Cannot create polyline object with given argument.Input must be an iterable of Points')
-        if len(inputs) < 2:
-            raise Exception('Cannot create polyline object with given argument. Insufficeint number of points')
-        
-        self.__inputs = inputs
+    def __init__(self, vertices):
+        if not all(isinstance(obj, Point) for obj in vertices):
+            raise TypeError('All elements must be Point instances')
+        if len(vertices) < 2:
+            raise ValueError('Polyline requires at least two points')
+        self.__vertices = list(vertices)
 
     @property
     def Length(self):
-        """returns the length of the linear feature"""
-        sum = 0.0
-        for i in range(0, len(self.__inputs) - 1):
-            sum += self.__inputs[i].distance_to_other(self.__inputs[i+1])
+        """Returns the total length (sum of segment distances)."""
+        return sum(self.__vertices[i].distance_to_other(self.__vertices[i+1]) for i in range(len(self.__vertices) - 1))
 
-        return sum
+    @property
+    def is_closed(self):
+        """Returns True if the polyline is closed (first and last vertex are the same)."""
+        return self.__vertices[0] == self.__vertices[-1]
+
+    def to_lines(self):
+        """Returns a list of (Point, Point) tuples representing each segment."""
+        return [(self.__vertices[i], self.__vertices[i+1]) for i in range(len(self.__vertices) - 1)]
+
+    def reverse(self):
+        """Reverses the order of the vertices."""
+        self.__vertices.reverse()
+
+    def __len__(self):
+        """Returns the number of vertices."""
+        return len(self.__vertices)
+
+    def __getitem__(self, idx):
+        """Allows indexing into the vertices."""
+        return self.__vertices[idx]
+
+    def __repr__(self):
+        return f'Polyline({self.__vertices})'
 
 
 class Polygon():
