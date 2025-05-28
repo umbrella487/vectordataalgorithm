@@ -1,9 +1,9 @@
 # vectordataalgorithm
 
 **Version:** 1.0.0  
-**Author:** [Your Name Here]  
+**Author:** Francis Dowuona 
 **License:** [Specify License, e.g., MIT]  
-**Repository:** [Add repository URL if available]  
+**Repository:** https://github.com/umbrella487/vectordataalgorithm
 
 ## Overview
 
